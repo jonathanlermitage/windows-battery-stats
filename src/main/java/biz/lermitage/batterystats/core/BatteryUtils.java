@@ -32,10 +32,6 @@ public class BatteryUtils {
                 retrievedBatteryFields.add(batteryStatus.getACLineStatusString());
                 fieldFound = true;
             }
-            if (field.equalsIgnoreCase(Kernel32.FIELD_BATTERYFLAG)) {
-                retrievedBatteryFields.add(batteryStatus.getBatteryFlagString());
-                fieldFound = true;
-            }
             if (field.equalsIgnoreCase(Kernel32.FIELD_BATTERYLIFEPERCENT)) {
                 retrievedBatteryFields.add(batteryStatus.getBatteryLifePercent());
                 fieldFound = true;

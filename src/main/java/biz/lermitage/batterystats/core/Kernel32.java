@@ -19,9 +19,6 @@ public interface Kernel32 extends StdCallLibrary {
     /** ACLineStatus -> battery state: "Online", "Offline". */
     public static final String FIELD_ACLINESTATUS = "AC";
 
-    /** BatteryFlag -> battery state flag, something like "High, more than 66 percent". */
-    public static final String FIELD_BATTERYFLAG = "Flag";
-
     /** BatteryLifePercent -> battery remaining lifetime as percentage from "0%" to "100%". */
     public static final String FIELD_BATTERYLIFEPERCENT = "LifePercent";
 
@@ -87,24 +84,6 @@ public interface Kernel32 extends StdCallLibrary {
             }
         }
 
-        /** The battery charge status. */
-        public String getBatteryFlagString() {
-            switch (BatteryFlag) {
-                case (1):
-                    return "High, more than 66 percent";
-                case (2):
-                    return "Low, less than 33 percent";
-                case (4):
-                    return "Critical, less than five percent";
-                case (8):
-                    return "Charging";
-                case ((byte) 128):
-                    return "No system battery";
-                default:
-                    return UNKNOWN;
-            }
-        }
-
         /** The percentage of full battery charge remaining. */
         public String getBatteryLifePercent() {
             return (BatteryLifePercent == (byte) 255) ? UNKNOWN : BatteryLifePercent + "%";
@@ -125,15 +104,6 @@ public interface Kernel32 extends StdCallLibrary {
         /** The number of seconds of battery life when at full charge. */
         public String getBatteryFullLifeTime() {
             return (BatteryFullLifeTime == -1) ? UNKNOWN : BatteryFullLifeTime + " seconds";
-        }
-
-        @Override
-        public String toString() {
-            return ("ACLineStatus: " + getACLineStatusString() + "\n") +
-                "Battery Flag: " + getBatteryFlagString() + "\n" +
-                "Battery Life: " + getBatteryLifePercent() + "\n" +
-                "Battery Left: " + getBatteryLifeTime() + "\n" +
-                "Battery Full: " + getBatteryFullLifeTime() + "\n";
         }
     }
 
