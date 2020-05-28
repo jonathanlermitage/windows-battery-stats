@@ -1,0 +1,13 @@
+spring:
+  application.name: "battery-stats"
+  main.banner-mode: off
+logging:
+  level.root: INFO
+  file.path: "logs/"
+
+localapp:
+  battery:
+    chunk: 6
+    pause: 20s
+    reportDir: "report/"
+    reportSuffix: "battery-stats-"

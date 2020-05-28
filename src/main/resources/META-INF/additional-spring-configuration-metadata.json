@@ -1,0 +1,24 @@
+{
+    "properties": [
+        {
+            "name": "localapp.battery.chunk",
+            "type": "java.lang.Integer",
+            "description": "How many battery infos to cache before dump to file."
+        },
+        {
+            "name": "localapp.battery.pause",
+            "type": "java.time.Duration",
+            "description": "Time to wait before every battery info collection."
+        },
+        {
+            "name": "localapp.battery.reportDir",
+            "type": "java.lang.String",
+            "description": "Folder that contans report files."
+        },
+        {
+            "name": "localapp.battery.reportSuffix",
+            "type": "java.lang.String",
+            "description": "Report filename suffix."
+        }
+    ]
+}
