@@ -1,16 +1,16 @@
 package biz.lermitage.batterystats.service.impl
 
 import biz.lermitage.batterystats.conf.LocalAppConf
-import biz.lermitage.batterystats.service.BatteryCollector
-import biz.lermitage.batterystats.service.BatteryReader
-import biz.lermitage.batterystats.service.BatteryWriter
+import biz.lermitage.batterystats.service.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class BatteryCollectorImpl(private val conf: LocalAppConf,
                            private val batteryReader: BatteryReader,
-                           private val batteryWriter: BatteryWriter) : BatteryCollector {
+                           private val batteryWriter: BatteryWriter,
+                           private val timeService: TimeService,
+                           private val zipCompressor: ZipCompressor) : BatteryCollector {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -19,6 +19,9 @@ class BatteryCollectorImpl(private val conf: LocalAppConf,
         logger.info(conf.toString())
         while (true) {
             batteryWriter.writeToFile(batteryReader.read())
+            if (timeService.rotateDay()) {
+                zipCompressor.compressFinalizedReports()
+            }
             Thread.sleep(pauseDuration)
         }
     }
