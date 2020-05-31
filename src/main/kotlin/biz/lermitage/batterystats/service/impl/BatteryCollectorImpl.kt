@@ -18,8 +18,8 @@ class BatteryCollectorImpl(private val conf: LocalAppConf,
         val pauseDuration = conf.battery.pause.seconds * 1_000
         logger.info(conf.toString())
         while (true) {
-            batteryWriter.writeToFile(batteryReader.read())
-            if (timeService.rotateDay()) {
+            val reportWritten = batteryWriter.writeToFile(batteryReader.read())
+            if (reportWritten && timeService.rotateDay()) {
                 zipCompressor.compressFinalizedReports()
             }
             Thread.sleep(pauseDuration)

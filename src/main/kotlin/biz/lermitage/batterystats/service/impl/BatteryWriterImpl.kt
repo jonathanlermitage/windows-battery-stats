@@ -20,7 +20,7 @@ class BatteryWriterImpl(private val conf: LocalAppConf) : BatteryWriter {
     private val batteryInfoCache: MutableList<BatteryInfo> = ArrayList()
     private val batteryInfoChunk = conf.battery.chunk.toInt()
 
-    override fun writeToFile(batteryInfo: BatteryInfo) {
+    override fun writeToFile(batteryInfo: BatteryInfo): Boolean {
         batteryInfoCache.add(batteryInfo)
 
         if (batteryInfoCache.size >= batteryInfoChunk) {
@@ -47,6 +47,7 @@ class BatteryWriterImpl(private val conf: LocalAppConf) : BatteryWriter {
                 try {
                     FileUtils.writeLines(reportFile, batteryInfoLines, true)
                     batteryInfoCache.clear()
+                    return true
                 } catch (ex: IOException) {
                     if (batteryInfoCache.size > batteryInfoChunk * 5) {
                         batteryInfoCache.clear()
@@ -58,5 +59,6 @@ class BatteryWriterImpl(private val conf: LocalAppConf) : BatteryWriter {
                 }
             }
         }
+        return false
     }
 }
