@@ -17,6 +17,7 @@ class BatteryCollectorImpl(private val conf: LocalAppConf,
     override fun collectInfinite() {
         val pauseDuration = conf.battery.pause.seconds * 1_000
         logger.info(conf.toString())
+        zipCompressor.compressFinalizedReports()
         while (true) {
             val reportWritten = batteryWriter.writeToFile(batteryReader.read())
             if (reportWritten && timeService.rotateDay()) {
